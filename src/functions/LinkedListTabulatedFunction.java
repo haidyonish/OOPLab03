@@ -87,15 +87,18 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
 
     @Override
     public double getFunctionValue(double x) {
-        if (x >= getLeftDomainBorder() - 1e-10 && x <= getRightDomainBorder() + 1e-10) {
+        if (x >= getLeftDomainBorder() && x <= getRightDomainBorder()) {
             FunctionNode tempNode = head.next;
             for (int i = 1; i < size; i++) {
                 if (x <= tempNode.next.data.getX() + 1e-10) {
+                    if (Math.abs(x - tempNode.next.data.getX()) < 1e-10) {
+                        return tempNode.next.data.getY();
+                    }
                     double y1 = tempNode.data.getY();
                     double y2 = tempNode.next.data.getY();
                     double x1 = tempNode.data.getX();
                     double x2 = tempNode.next.data.getX();
-                    return y1 + (y2-y1) * (x-x1) / (x2-x1);
+                    return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
                 }
                 tempNode = tempNode.next;
             }

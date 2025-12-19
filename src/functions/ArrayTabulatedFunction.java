@@ -72,9 +72,12 @@ public class ArrayTabulatedFunction implements TabulatedFunction {
 
     @Override
     public double getFunctionValue(double x) {
-        if (x >= getLeftDomainBorder() - 1e-10 && x <= getRightDomainBorder() + 1e-10) {
+        if (x >= getLeftDomainBorder() && x <= getRightDomainBorder()) {
             for (int i = 1; i < size; i++) {
                 if (x <= points[i].getX() + 1e-10) {
+                    if (Math.abs(x - points[i].getX()) < 1e-10) {
+                        return points[i].getY();
+                    }
                     double y1 = points[i - 1].getY();
                     double y2 = points[i].getY();
                     double x1 = points[i - 1].getX();
